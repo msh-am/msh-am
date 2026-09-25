@@ -1,4 +1,4 @@
-name: CI Build & Test
+name: CI & Deployment
 
 on:
   push:
@@ -7,7 +7,8 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  build-and-deploy:
+    name: Build & Deploy
     runs-on: ubuntu-latest
 
     steps:
@@ -25,3 +26,28 @@ jobs:
 
       - name: Build Docusaurus site
         run: npm run build
+
+      - name: Deploy to Allegoria
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.ALLEGORIA_SSH_KEY }}
+          SSH_HOST: ${{ secrets.ALLEGORIA_HOST || '91.132.162.198' }}
+          SSH_USER: ${{ secrets.ALLEGORIA_USER || 'root' }}
+          SSH_PORT: ${{ secrets.ALLEGORIA_PORT || '22' }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -p "$SSH_PORT" "$SSH_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+
+          echo "[msh.am] Syncing Docusaurus build to $SSH_HOST..."
+          rsync -avz --delete \
+            -e "ssh -i ~/.ssh/deploy_key -p $SSH_PORT" \
+            build/ "$SSH_USER@$SSH_HOST":/opt/msh-am/web/build/
+
+          echo "[msh.am] Reloading Caddy webserver..."
+          ssh -i ~/.ssh/deploy_key -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" "systemctl reload caddy"
+
+          echo "[msh.am] Verifying deployment..."
+          curl -fsS --retry 3 --retry-delay 2 "https://msh.am" > /dev/null || curl -fsS "http://$SSH_HOST" > /dev/null
+          echo "[msh.am] Wiki successfully deployed to Allegoria!"
