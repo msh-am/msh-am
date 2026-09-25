@@ -1,0 +1,155 @@
+/**
+ * Global Custom CSS for Meshtastic Armenia (msh.am)
+ * Clean, technical, high-readability design for both Light and Dark themes.
+ */
+
+:root {
+  --ifm-color-primary: #059669;
+  --ifm-color-primary-dark: #047857;
+  --ifm-color-primary-darker: #065f46;
+  --ifm-color-primary-darkest: #064e3b;
+  --ifm-color-primary-light: #10b981;
+  --ifm-color-primary-lighter: #34d399;
+  --ifm-color-primary-lightest: #6ee7b7;
+
+  --ifm-code-font-size: 92%;
+  --docusaurus-highlighted-code-line-bg: rgba(5, 150, 105, 0.08);
+  --ifm-font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, -apple-system, sans-serif;
+  --ifm-heading-font-weight: 700;
+
+  /* Theme tokens - Light Mode */
+  --msh-bg-page: #f8fafc;
+  --msh-bg-surface: #ffffff;
+  --msh-card-bg: #ffffff;
+  --msh-card-border: #e2e8f0;
+  --msh-card-hover-border: #cbd5e1;
+  --msh-card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+  --msh-text-primary: #0f172a;
+  --msh-text-secondary: #334155;
+  --msh-text-muted: #64748b;
+  --msh-banner-bg: #f1f5f9;
+  --msh-banner-border: #e2e8f0;
+  --msh-badge-bg: #ecfdf5;
+  --msh-badge-border: #a7f3d0;
+  --msh-badge-text: #065f46;
+  --msh-telemetry-bg: #f8fafc;
+  --msh-telemetry-border: #e2e8f0;
+  --msh-input-bg: #ffffff;
+  --msh-input-border: #cbd5e1;
+
+  --ifm-navbar-background-color: #ffffff;
+  --ifm-footer-background-color: #0f172a;
+}
+
+[data-theme='dark'] {
+  --ifm-color-primary: #10b981;
+  --ifm-color-primary-dark: #059669;
+  --ifm-color-primary-darker: #047857;
+  --ifm-color-primary-darkest: #065f46;
+  --ifm-color-primary-light: #34d399;
+  --ifm-color-primary-lighter: #6ee7b7;
+  --ifm-color-primary-lightest: #a7f3d0;
+
+  --ifm-background-color: #0f172a;
+  --ifm-background-surface-color: #1e293b;
+
+  /* Theme tokens - Dark Mode */
+  --msh-bg-page: #0f172a;
+  --msh-bg-surface: #1e293b;
+  --msh-card-bg: #1e293b;
+  --msh-card-border: rgba(255, 255, 255, 0.08);
+  --msh-card-hover-border: rgba(16, 185, 129, 0.35);
+  --msh-card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+  --msh-text-primary: #f8fafc;
+  --msh-text-secondary: #cbd5e1;
+  --msh-text-muted: #94a3b8;
+  --msh-banner-bg: #131d31;
+  --msh-banner-border: rgba(255, 255, 255, 0.08);
+  --msh-badge-bg: rgba(16, 185, 129, 0.12);
+  --msh-badge-border: rgba(16, 185, 129, 0.3);
+  --msh-badge-text: #34d399;
+  --msh-telemetry-bg: #0f172a;
+  --msh-telemetry-border: rgba(255, 255, 255, 0.05);
+  --msh-input-bg: #0f172a;
+  --msh-input-border: rgba(255, 255, 255, 0.15);
+
+  --ifm-navbar-background-color: #0f172a;
+  --ifm-footer-background-color: #090d16;
+}
+
+/* Navbar styling */
+.navbar {
+  border-bottom: 1px solid var(--msh-card-border);
+  box-shadow: none;
+}
+
+.navbar__title {
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--ifm-color-primary) !important;
+}
+
+/* Docs sidebar & markdown styling */
+.theme-doc-sidebar-container {
+  border-right: 1px solid var(--msh-card-border) !important;
+}
+
+.menu__link {
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.menu__link--active:not(.menu__link--sublist) {
+  background-color: rgba(16, 185, 129, 0.1) !important;
+  color: var(--ifm-color-primary) !important;
+  font-weight: 600;
+}
+
+/* Markdown Tables */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.5rem 0;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--msh-card-border);
+}
+
+table th {
+  background-color: var(--msh-banner-bg);
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  color: var(--msh-text-primary);
+  border-bottom: 1px solid var(--msh-card-border);
+}
+
+table td {
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--msh-card-border);
+  color: var(--msh-text-secondary);
+}
+
+/* Admonitions / Callouts */
+.alert--info {
+  background-color: rgba(56, 189, 248, 0.08);
+  border-color: rgba(56, 189, 248, 0.3);
+  color: var(--msh-text-primary);
+}
+
+.alert--success {
+  background-color: rgba(16, 185, 129, 0.08);
+  border-color: rgba(16, 185, 129, 0.3);
+  color: var(--msh-text-primary);
+}
+
+.alert--warning {
+  background-color: rgba(245, 158, 11, 0.08);
+  border-color: rgba(245, 158, 11, 0.3);
+  color: var(--msh-text-primary);
+}
+
+.alert--danger {
+  background-color: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: var(--msh-text-primary);
+}

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="100%" height="100%">
+  <rect width="640" height="640" rx="128" ry="128" fill="#66ea94" />
+  <g id="mountains" stroke="#262838" stroke-width="38" stroke-linecap="butt" stroke-linejoin="round" fill="none">
+    <!-- Sis (Little Ararat) -->
+    <polyline points="80,431 177,284 246,392" />
+    <!-- Masis (Greater Ararat) -->
+    <polyline points="276,432 413,208 557,428" />
+  </g>
+</svg>

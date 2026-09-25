@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="60 180 520 280" width="100%" height="100%">
+  <g stroke="currentColor" stroke-width="38" stroke-linecap="butt" stroke-linejoin="round" fill="none">
+    <!-- Sis -->
+    <polyline points="80,431 177,284 246,392" />
+    <!-- Masis -->
+    <polyline points="276,432 413,208 557,428" />
+  </g>
+</svg>
