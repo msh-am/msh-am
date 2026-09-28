@@ -35,18 +35,18 @@ export default function NodeDirectory({ nodes }: NodeDirectoryProps): React.JSX.
         if (!searchQuery.trim()) return true;
         const q = searchQuery.toLowerCase();
         return (
-          node.longName.toLowerCase().includes(q) ||
-          node.shortName.toLowerCase().includes(q) ||
-          node.id.toLowerCase().includes(q) ||
-          (node.region && node.region.toLowerCase().includes(q)) ||
-          node.hwModel.toLowerCase().includes(q)
+          (node.longName || '').toLowerCase().includes(q) ||
+          (node.shortName || '').toLowerCase().includes(q) ||
+          (node.id || '').toLowerCase().includes(q) ||
+          (node.region ? node.region.toLowerCase().includes(q) : false) ||
+          (node.hwModel || '').toLowerCase().includes(q)
         );
       })
       .sort((a, b) => {
-        if (sortBy === 'lastHeard') return b.lastHeard - a.lastHeard;
+        if (sortBy === 'lastHeard') return (b.lastHeard || 0) - (a.lastHeard || 0);
         if (sortBy === 'snr') return (b.snr ?? -99) - (a.snr ?? -99);
         if (sortBy === 'battery') return (b.batteryLevel ?? 0) - (a.batteryLevel ?? 0);
-        if (sortBy === 'name') return a.longName.localeCompare(b.longName);
+        if (sortBy === 'name') return (a.longName || '').localeCompare(b.longName || '');
         return 0;
       });
   }, [nodes, roleFilter, searchQuery, sortBy]);
@@ -61,8 +61,8 @@ export default function NodeDirectory({ nodes }: NodeDirectoryProps): React.JSX.
     return `${Math.floor(diffHours / 24)}d ago`;
   };
 
-  const getBatteryColor = (level?: number) => {
-    if (level === undefined) return '#94a3b8';
+  const getBatteryColor = (level?: number | null) => {
+    if (level == null) return '#94a3b8';
     if (level > 70) return '#10b981'; // Green
     if (level > 30) return '#f59e0b'; // Amber
     return '#ef4444'; // Red
@@ -220,8 +220,10 @@ export default function NodeDirectory({ nodes }: NodeDirectoryProps): React.JSX.
                     <span>Battery</span>
                   </div>
                   <div className={styles.telemetryValue} style={{ color: getBatteryColor(node.batteryLevel) }}>
-                    {node.batteryLevel !== undefined ? `${node.batteryLevel}%` : 'N/A'}
-                    {node.voltage && <span className={styles.voltageSub}>{node.voltage.toFixed(2)}V</span>}
+                    {node.batteryLevel != null ? `${node.batteryLevel}%` : 'N/A'}
+                    {node.voltage != null && typeof node.voltage === 'number' && !isNaN(node.voltage) && (
+                      <span className={styles.voltageSub}>{node.voltage.toFixed(2)}V</span>
+                    )}
                   </div>
                 </div>
 
@@ -232,8 +234,10 @@ export default function NodeDirectory({ nodes }: NodeDirectoryProps): React.JSX.
                     <span>Signal</span>
                   </div>
                   <div className={styles.telemetryValue}>
-                    {node.snr !== undefined ? `${node.snr > 0 ? '+' : ''}${node.snr.toFixed(1)} dB` : 'N/A'}
-                    {node.rssi && <span className={styles.voltageSub}>{node.rssi} dBm</span>}
+                    {node.snr != null && typeof node.snr === 'number' && !isNaN(node.snr)
+                      ? `${node.snr > 0 ? '+' : ''}${node.snr.toFixed(1)} dB`
+                      : 'N/A'}
+                    {node.rssi != null && <span className={styles.voltageSub}>{node.rssi} dBm</span>}
                   </div>
                 </div>
 
@@ -244,7 +248,9 @@ export default function NodeDirectory({ nodes }: NodeDirectoryProps): React.JSX.
                     <span>Hops</span>
                   </div>
                   <div className={styles.telemetryValue}>
-                    {node.hopsAway === 0 ? 'Direct (0)' : `${node.hopsAway} hop${node.hopsAway! > 1 ? 's' : ''}`}
+                    {node.hopsAway != null
+                      ? (node.hopsAway === 0 ? 'Direct (0)' : `${node.hopsAway} hop${node.hopsAway > 1 ? 's' : ''}`)
+                      : 'N/A'}
                   </div>
                 </div>
 
@@ -254,8 +260,8 @@ export default function NodeDirectory({ nodes }: NodeDirectoryProps): React.JSX.
                     <Cpu size={13} />
                     <span>Hardware</span>
                   </div>
-                  <div className={styles.telemetryValue} title={node.hwModel}>
-                    {node.hwModel.replace('_', ' ')}
+                  <div className={styles.telemetryValue} title={node.hwModel || 'UNKNOWN'}>
+                    {(node.hwModel || 'UNKNOWN').replace('_', ' ')}
                   </div>
                 </div>
               </div>
