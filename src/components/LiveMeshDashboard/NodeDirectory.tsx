@@ -185,7 +185,7 @@ export default function NodeDirectory({ nodes }: NodeDirectoryProps): React.JSX.
                   <div className={styles.statusIndicator}>
                     <span 
                       className={node.isOnline ? styles.onlineIndicator : styles.offlineIndicator} 
-                      title={node.isOnline ? 'Online (heard < 15m)' : 'Offline / Inactive'}
+                      title={node.isOnline ? 'Online (heard < 24h)' : 'Offline / Inactive'}
                     />
                     <span className={styles.nodeShortName}>{node.shortName}</span>
                   </div>

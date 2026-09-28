@@ -103,7 +103,7 @@ export default function LiveMeshDashboard(): React.JSX.Element {
               {stats.onlineNodes} <span style={{ fontSize: '0.85rem', color: 'var(--msh-text-muted)', fontWeight: 500 }}>/ {stats.totalNodes} total</span>
             </div>
             <div style={{ fontSize: '0.72rem', color: 'var(--ifm-color-primary)', marginTop: '0.15rem' }}>
-              Heard in last 15 minutes
+              Heard in last 24 hours
             </div>
           </div>
 

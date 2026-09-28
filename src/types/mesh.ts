@@ -19,7 +19,7 @@ export interface MeshNode {
   longitude?: number;
   altitude?: number;
   region?: string;        // e.g. "Yerevan", "Mount Aragats", "Lake Sevan", "Dilijan"
-  isOnline: boolean;      // heard within threshold (e.g. 15 mins)
+  isOnline: boolean;      // heard within threshold (24h)
 }
 
 export interface MeshNetworkStats {
