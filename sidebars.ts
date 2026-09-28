@@ -29,6 +29,8 @@ const sidebars: SidebarsConfig = {
       collapsed: false,
       items: [
         'hardware/recommended-devices',
+        'hardware/handhelds',
+        'hardware/repeaters-and-gateways',
         'hardware/antennas',
         'hardware/solar-repeaters',
       ],

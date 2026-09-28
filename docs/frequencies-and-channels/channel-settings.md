@@ -61,6 +61,8 @@ If you have a home node (`CLIENT_BASE` or stationary `CLIENT`) connected to home
 - **Module**: In the Meshtastic app, go to **Settings** → **Module Config** → **MQTT**.
 - **MQTT Enabled**: `ON`
 - **Server Address**: `mqtt.msh.am`
+- **Username**: `meshdev` (default)
+- **Password**: `large4cats` (default)
 - **Uplink Enabled**: `YES` (Sends received RF packets to the community dashboard)
 - **Downlink Enabled**: ❌ **`NO`** (CRITICAL: Do not enable downlink. Enabling downlink injects internet traffic back into the 868 MHz RF airwaves, creating packet collisions for everyone!)
 - **Topic Root**: `msh/AM`

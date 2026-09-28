@@ -55,6 +55,8 @@ If your node is connected to home Wi-Fi and you want to contribute reception to 
 Under **Settings -> Module Config -> MQTT**:
 - **MQTT Enabled**: `ON`
 - **Server Address**: `mqtt.msh.am`
+- **Username**: `meshdev` (default)
+- **Password**: `large4cats` (default)
 - **Uplink Enabled**: `YES`
 - **Downlink Enabled**: ❌ **`NO`** (Keep OFF to protect RF channels from internet spam)
 - **Topic**: `msh/AM`

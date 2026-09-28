@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { 
   Radio, 
   Activity, 
   Mountain, 
   BatteryCharging, 
-  RefreshCw, 
-  SlidersHorizontal 
+  RefreshCw 
 } from 'lucide-react';
 import { useMeshNetwork } from '../../hooks/useMeshNetwork';
 import NodeDirectory from './NodeDirectory';
-import DashboardSettingsModal from './DashboardSettingsModal';
 import styles from './styles.module.css';
 
 export default function LiveMeshDashboard(): React.JSX.Element {
@@ -18,12 +16,8 @@ export default function LiveMeshDashboard(): React.JSX.Element {
     stats, 
     loading, 
     lastUpdated, 
-    endpointUrl, 
-    updateEndpoint, 
     refresh 
   } = useMeshNetwork();
-
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   return (
     <div style={{ maxWidth: 1300, margin: '0 auto', padding: '1.5rem 1rem' }}>
@@ -84,16 +78,6 @@ export default function LiveMeshDashboard(): React.JSX.Element {
             >
               <RefreshCw size={14} className={loading ? styles.spinning : ''} />
               <span>Refresh</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setIsSettingsOpen(true)}
-              className={styles.settingsBtn}
-              style={{ color: 'var(--ifm-color-primary)', borderColor: 'var(--ifm-color-primary)' }}
-            >
-              <SlidersHorizontal size={14} />
-              <span>Data Source</span>
             </button>
           </div>
         </div>
@@ -194,15 +178,6 @@ export default function LiveMeshDashboard(): React.JSX.Element {
 
       <NodeDirectory 
         nodes={nodes} 
-        onOpenSettings={() => setIsSettingsOpen(true)} 
-      />
-
-      {/* Settings Modal */}
-      <DashboardSettingsModal
-        isOpen={isSettingsOpen}
-        onClose={() => setIsSettingsOpen(false)}
-        currentEndpoint={endpointUrl}
-        onSaveEndpoint={updateEndpoint}
       />
     </div>
   );

@@ -36,7 +36,7 @@ Our mission is to establish a resilient, open-source communication backbone that
 | **Why Meshtastic?** | Civil defense, earthquake resilience, and alpine safety in Armenia | [Read More](/docs/why-meshtastic) |
 | **Getting Started** | 4-step quickstart: purchasing, flashing firmware, and phone pairing | [Getting Started Guide](/docs/getting-started) |
 | **Frequencies & Channels** | Official Armenian community standards (`EU_868`, MediumFast preset) | [Frequency Standards](/docs/frequencies-and-channels/armenia-standards) |
-| **Hardware & Antennas** | Best nodes (Heltec, T-Beam, WisBlock) and crucial antenna tuning tips | [Hardware Guide](/docs/hardware/recommended-devices) |
+| **Hardware & Antennas** | Buyer's guide, handhelds (T114, T-Echo, Wio L1 Pro), repeaters (V4, WisBlock), and antenna tips | [Hardware Guide](/docs/hardware/recommended-devices) |
 | **Live Mesh Dashboard** | Real-time status of online nodes, repeaters, and channel health | [Open Dashboard](/dashboard) |
 
 ---

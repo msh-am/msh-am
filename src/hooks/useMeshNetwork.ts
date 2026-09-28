@@ -391,77 +391,104 @@ const DEFAULT_ARMENIA_NODES: MeshNode[] = [
   },
 ];
 
+const API_BASE_URL = 'https://api.msh.am';
+const API_NODES_URL = `${API_BASE_URL}/api/nodes`;
+const API_STATS_URL = `${API_BASE_URL}/api/stats`;
+
 export function useMeshNetwork() {
-  const [nodes, setNodes] = useState<MeshNode[]>([]);
+  const [nodes, setNodes] = useState<MeshNode[]>(DEFAULT_ARMENIA_NODES);
+  const [serverStats, setServerStats] = useState<MeshNetworkStats | null>(null);
   const [loading, setLoading] = useState(false);
-  const [endpointUrl, setEndpointUrl] = useState<string>('/api/nodes');
   const [statusMode, setStatusMode] = useState<'simulated' | 'connected' | 'disconnected'>('connected');
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
 
-  // Load custom endpoint from localStorage if set
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('msh_api_endpoint');
-      if (saved) {
-        setEndpointUrl(saved);
-      }
-    }
-  }, []);
-
-  const fetchNodes = useCallback(async (url?: string) => {
-    const targetUrl = url || endpointUrl;
-    if (!targetUrl) {
-      setStatusMode('simulated');
-      setLastUpdated(new Date());
-      return;
-    }
-
+  const fetchData = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch(targetUrl);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      
-      const rawNodes = Array.isArray(data) ? data : data.nodes || [];
-      const parsedNodes: MeshNode[] = rawNodes.map((n: any) => {
-        const lastHeardMs = typeof n.lastHeard === 'number' 
-          ? (n.lastHeard < 1e11 ? n.lastHeard * 1000 : n.lastHeard)
-          : Date.now();
-        const isOnline = Date.now() - lastHeardMs < 8 * 60 * 60 * 1000;
+      const [nodesResult, statsResult] = await Promise.allSettled([
+        fetch(API_NODES_URL),
+        fetch(API_STATS_URL),
+      ]);
 
-        return {
-          id: n.id || (n.num ? `!${n.num.toString(16)}` : `!${Math.random().toString(16).slice(2, 10)}`),
-          num: n.num || 0,
-          shortName: n.shortName || n.user?.shortName || 'NODE',
-          longName: n.longName || n.user?.longName || 'Unknown Node',
-          role: n.role || n.user?.role || 'CLIENT',
-          hwModel: n.hwModel || n.user?.hwModel || 'UNKNOWN',
-          batteryLevel: n.deviceMetrics?.batteryLevel ?? n.batteryLevel,
-          voltage: n.deviceMetrics?.voltage ?? n.voltage,
-          channelUtilization: n.deviceMetrics?.channelUtilization,
-          airUtilTx: n.deviceMetrics?.airUtilTx,
-          snr: n.snr,
-          rssi: n.rssi,
-          hopsAway: n.hopsAway ?? 0,
-          lastHeard: lastHeardMs,
-          latitude: n.position?.latitude ?? n.latitude,
-          longitude: n.position?.longitude ?? n.longitude,
-          altitude: n.position?.altitude ?? n.altitude,
-          region: n.region || 'Armenia',
-          isOnline,
-        };
-      });
+      let hasLiveNodes = false;
 
-      setNodes(parsedNodes);
-      setStatusMode('connected');
+      // 1. Process Nodes
+      if (nodesResult.status === 'fulfilled' && nodesResult.value.ok) {
+        try {
+          const data = await nodesResult.value.json();
+          const rawNodes = Array.isArray(data) ? data : data.nodes || [];
+          if (rawNodes.length > 0) {
+            const parsedNodes: MeshNode[] = rawNodes.map((n: any) => {
+              const lastHeardMs = typeof n.lastHeard === 'number'
+                ? (n.lastHeard < 1e11 ? n.lastHeard * 1000 : n.lastHeard)
+                : Date.now();
+              const isOnline = typeof n.isOnline === 'boolean'
+                ? n.isOnline
+                : (Date.now() - lastHeardMs < 15 * 60 * 1000);
+
+              return {
+                id: n.id || (n.num ? `!${n.num.toString(16)}` : `!${Math.random().toString(16).slice(2, 10)}`),
+                num: n.num || 0,
+                shortName: n.shortName || n.user?.shortName || 'NODE',
+                longName: n.longName || n.user?.longName || 'Unknown Node',
+                role: n.role || n.user?.role || 'CLIENT',
+                hwModel: n.hwModel || n.user?.hwModel || 'UNKNOWN',
+                batteryLevel: n.batteryLevel ?? n.deviceMetrics?.batteryLevel,
+                voltage: n.voltage ?? n.deviceMetrics?.voltage,
+                channelUtilization: n.channelUtilization ?? n.deviceMetrics?.channelUtilization,
+                airUtilTx: n.airUtilTx ?? n.deviceMetrics?.airUtilTx,
+                snr: n.snr,
+                rssi: n.rssi,
+                hopsAway: n.hopsAway ?? 0,
+                lastHeard: lastHeardMs,
+                latitude: n.latitude ?? n.position?.latitude,
+                longitude: n.longitude ?? n.position?.longitude,
+                altitude: n.altitude ?? n.position?.altitude,
+                region: n.region || 'Armenia',
+                isOnline,
+              };
+            });
+
+            setNodes(parsedNodes);
+            hasLiveNodes = true;
+          } else {
+            setNodes(DEFAULT_ARMENIA_NODES);
+          }
+        } catch {
+          setNodes(DEFAULT_ARMENIA_NODES);
+        }
+      } else {
+        setNodes(DEFAULT_ARMENIA_NODES);
+      }
+
+      // 2. Process Stats
+      if (statsResult.status === 'fulfilled' && statsResult.value.ok) {
+        try {
+          const statsData: MeshNetworkStats = await statsResult.value.json();
+          setServerStats(statsData);
+          setStatusMode(statsData.mqttStatus || (hasLiveNodes ? 'connected' : 'simulated'));
+        } catch {
+          setStatusMode(hasLiveNodes ? 'connected' : 'simulated');
+        }
+      } else {
+        setStatusMode(hasLiveNodes ? 'connected' : 'disconnected');
+      }
     } catch (err) {
-      console.warn('Failed to fetch live mesh data from endpoint:', err);
+      console.warn('Failed to fetch live mesh data from api.msh.am:', err);
+      setNodes(DEFAULT_ARMENIA_NODES);
       setStatusMode('disconnected');
     } finally {
       setLoading(false);
       setLastUpdated(new Date());
     }
-  }, [endpointUrl]);
+  }, []);
+
+  // Fetch immediately on mount and periodically every 30 seconds
+  useEffect(() => {
+    fetchData();
+    const interval = setInterval(fetchData, 30000);
+    return () => clearInterval(interval);
+  }, [fetchData]);
 
   // Periodic relative time update
   useEffect(() => {
@@ -473,12 +500,27 @@ export function useMeshNetwork() {
   }, []);
 
   const stats: MeshNetworkStats = useMemo(() => {
+    if (serverStats && serverStats.totalNodes > 0) {
+      return {
+        ...serverStats,
+        endpointUrl: API_BASE_URL,
+        mqttStatus: statusMode,
+      };
+    }
+
     const onlineList = nodes.filter((n) => n.isOnline);
     const routersList = nodes.filter((n) => n.role === 'ROUTER' && n.isOnline);
     const validBatteries = nodes.filter((n) => typeof n.batteryLevel === 'number').map((n) => n.batteryLevel!);
     const avgBattery = validBatteries.length
       ? Math.round(validBatteries.reduce((a, b) => a + b, 0) / validBatteries.length)
       : 92;
+
+    const validChUtil = nodes
+      .filter((n) => n.isOnline && typeof n.channelUtilization === 'number')
+      .map((n) => n.channelUtilization!);
+    const avgChUtil = validChUtil.length
+      ? Math.round((validChUtil.reduce((a, b) => a + b, 0) / validChUtil.length) * 10) / 10
+      : (serverStats?.channelUtilization ?? 2.8);
 
     const latestPacket = nodes.reduce((max, n) => Math.max(max, n.lastHeard), 0);
 
@@ -487,32 +529,19 @@ export function useMeshNetwork() {
       onlineNodes: onlineList.length,
       activeRouters: routersList.length,
       avgBattery,
-      channelUtilization: 2.8,
-      lastPacketTime: latestPacket,
+      channelUtilization: serverStats?.channelUtilization ?? avgChUtil,
+      lastPacketTime: latestPacket || Date.now(),
       mqttStatus: statusMode,
-      endpointUrl,
+      endpointUrl: API_BASE_URL,
     };
-  }, [nodes, statusMode, endpointUrl]);
-
-  const updateEndpoint = (url: string) => {
-    setEndpointUrl(url);
-    if (typeof window !== 'undefined') {
-      if (url) {
-        localStorage.setItem('msh_api_endpoint', url);
-      } else {
-        localStorage.removeItem('msh_api_endpoint');
-      }
-    }
-    fetchNodes(url);
-  };
+  }, [nodes, serverStats, statusMode]);
 
   return {
     nodes,
     stats,
     loading,
     lastUpdated,
-    endpointUrl,
-    updateEndpoint,
-    refresh: () => fetchNodes(),
+    endpointUrl: API_BASE_URL,
+    refresh: fetchData,
   };
 }

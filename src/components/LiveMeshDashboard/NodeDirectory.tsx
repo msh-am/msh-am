@@ -8,8 +8,6 @@ import {
   MapPin, 
   Cpu, 
   Layers, 
-  ShieldCheck, 
-  SlidersHorizontal,
   WifiOff,
   Clock
 } from 'lucide-react';
@@ -18,10 +16,9 @@ import styles from './styles.module.css';
 
 interface NodeDirectoryProps {
   nodes: MeshNode[];
-  onOpenSettings?: () => void;
 }
 
-export default function NodeDirectory({ nodes, onOpenSettings }: NodeDirectoryProps): React.JSX.Element {
+export default function NodeDirectory({ nodes }: NodeDirectoryProps): React.JSX.Element {
   const [searchQuery, setSearchQuery] = useState('');
   const [roleFilter, setRoleFilter] = useState<'ALL' | 'ONLINE' | 'ROUTER' | 'CLIENT'>('ALL');
   const [sortBy, setSortBy] = useState<'lastHeard' | 'snr' | 'battery' | 'name'>('lastHeard');
@@ -153,18 +150,6 @@ export default function NodeDirectory({ nodes, onOpenSettings }: NodeDirectoryPr
               <option value="battery">Sort: Highest Battery</option>
               <option value="name">Sort: Name (A-Z)</option>
             </select>
-
-            {onOpenSettings && (
-              <button 
-                type="button" 
-                onClick={onOpenSettings}
-                className={styles.settingsBtn}
-                title="Configure live data endpoint"
-              >
-                <SlidersHorizontal size={16} />
-                <span>API Endpoint</span>
-              </button>
-            )}
           </div>
         </div>
       </div>

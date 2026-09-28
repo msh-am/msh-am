@@ -21,11 +21,11 @@ graph LR
 
 The Armenian community has standardized on **868 MHz (EU_868)**.
 The most popular and field-tested hardware options are:
-- **Heltec WiFi LoRa 32 (V3)** (~$25): ESP32-S3 with built-in OLED screen, Wi-Fi, and Bluetooth. Great desk node and beginner choice.
-- **LilyGO T-Echo** (~$50): Nordic nRF52840, sunlight-readable E-Ink display, built-in GPS, case, and multi-day battery. Best for hiking.
-- **RAK Wireless WisBlock (RAK4631)** (~$40): Ultra-low power consumption. The gold standard for autonomous solar repeaters on rooftops and mountain peaks.
+- **Heltec WiFi LoRa 32 (V4)** (~$25): ESP32-S3 with +28 dBm high-power PA, OLED, Wi-Fi, and Bluetooth. Ideal desk gateway and home node.
+- **Heltec Mesh Node T114 / LilyGO T-Echo / Wio L1 Pro** (~$30–$55): Nordic nRF52840 low-power handhelds with multi-day battery life for hiking and everyday carry.
+- **RAK Wireless WisBlock / Heltec MeshTower** (~$40–$130): Autonomous solar repeaters engineered for rooftops and mountain peaks.
 
-👉 Check out the full [Hardware & Antennas Guide](/docs/hardware/recommended-devices).
+👉 Check out the full [Hardware Selection & Buyer's Guide](/docs/hardware/recommended-devices).
 
 ---
 
