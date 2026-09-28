@@ -1,0 +1,74 @@
+{
+  "link.title.Wiki & Guides": {
+    "message": "Вики и Руководства",
+    "description": "The title of the footer links column with title=Wiki & Guides in the footer"
+  },
+  "link.title.Community": {
+    "message": "Сообщество",
+    "description": "The title of the footer links column with title=Community in the footer"
+  },
+  "link.title.Resources": {
+    "message": "Ресурсы",
+    "description": "The title of the footer links column with title=Resources in the footer"
+  },
+  "link.item.label.Why Meshtastic?": {
+    "message": "Почему Meshtastic?",
+    "description": "The label of footer link with label=Why Meshtastic? linking to /docs/why-meshtastic"
+  },
+  "link.item.label.Getting Started": {
+    "message": "Начало работы",
+    "description": "The label of footer link with label=Getting Started linking to /docs/getting-started"
+  },
+  "link.item.label.Armenia Standards": {
+    "message": "Стандарты Армении",
+    "description": "The label of footer link with label=Armenia Standards linking to /docs/frequencies-and-channels/armenia-standards"
+  },
+  "link.item.label.Channel Settings": {
+    "message": "Настройки каналов",
+    "description": "The label of footer link with label=Channel Settings linking to /docs/frequencies-and-channels/channel-settings"
+  },
+  "link.item.label.MQTT Gateway Setup": {
+    "message": "Настройка MQTT шлюза",
+    "description": "The label of footer link with label=MQTT Gateway Setup linking to /docs/frequencies-and-channels/mqtt-settings"
+  },
+  "link.item.label.Hardware Guide": {
+    "message": "Гид по оборудованию",
+    "description": "The label of footer link with label=Hardware Guide linking to /docs/hardware/recommended-devices"
+  },
+  "link.item.label.Telegram Community (@mesh_am)": {
+    "message": "Telegram сообщество (@mesh_am)",
+    "description": "The label of footer link with label=Telegram Community (@mesh_am) linking to https://t.me/mesh_am"
+  },
+  "link.item.label.Live Mesh Dashboard": {
+    "message": "Панель Mesh в реальном времени",
+    "description": "The label of footer link with label=Live Mesh Dashboard linking to /dashboard"
+  },
+  "link.item.label.Meshtastic Official": {
+    "message": "Meshtastic Официальный",
+    "description": "The label of footer link with label=Meshtastic Official linking to https://meshtastic.org"
+  },
+  "link.item.label.Web Flasher": {
+    "message": "Web Flasher",
+    "description": "The label of footer link with label=Web Flasher linking to https://flasher.meshtastic.org"
+  },
+  "link.item.label.Web Client": {
+    "message": "Web Client",
+    "description": "The label of footer link with label=Web Client linking to https://client.meshtastic.org"
+  },
+  "link.item.label.GitHub Repo": {
+    "message": "GitHub Репозиторий",
+    "description": "The label of footer link with label=GitHub Repo linking to https://github.com/msh-am/msh-am"
+  },
+  "link.item.label.Meshtastic Trademark Rules": {
+    "message": "Правила товарного знака Meshtastic",
+    "description": "The label of footer link with label=Meshtastic Trademark Rules linking to https://meshtastic.org/docs/legal/licensing-and-trademark/"
+  },
+  "copyright": {
+    "message": "\n        <div style=\"font-size: 0.825rem; line-height: 1.5; opacity: 0.85; max-width: 800px; margin: 0 auto; text-align: center;\">\n          <p style=\"margin-bottom: 0.4rem;\">\n            Сообщество Meshtastic Армения (msh.am) © 2026 — Лицензия <a href=\"https://www.gnu.org/licenses/gpl-3.0.html\" target=\"_blank\" rel=\"noopener noreferrer\" style=\"text-decoration: underline;\">GNU GPL v3.0</a>.\n          </p>\n          <p style=\"font-size: 0.75rem; color: var(--ifm-footer-color); margin: 0;\">\n            Этот сайт является независимым общественным проектом и не связан с Meshtastic LLC.\n            <strong>Meshtastic®</strong> — зарегистрированный товарный знак Meshtastic LLC.\n          </p>\n        </div>\n      ",
+    "description": "The footer copyright"
+  },
+  "logo.alt": {
+    "message": "Логотип сообщества Meshtastic Армения",
+    "description": "The alt text of footer logo"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.wikiSidebar.category.🚀 Getting Started": {
+    "message": "🚀 Начало работы",
+    "description": "The label for category '🚀 Getting Started' in sidebar 'wikiSidebar'"
+  },
+  "sidebar.wikiSidebar.category.📡 Frequencies & Channels (Armenia)": {
+    "message": "📡 Частоты и Каналы (Армения)",
+    "description": "The label for category '📡 Frequencies & Channels (Armenia)' in sidebar 'wikiSidebar'"
+  },
+  "sidebar.wikiSidebar.category.🛠️ Hardware & Antennas": {
+    "message": "🛠️ Оборудование и Антенны",
+    "description": "The label for category '🛠️ Hardware & Antennas' in sidebar 'wikiSidebar'"
+  },
+  "sidebar.wikiSidebar.category.🤝 Community & Etiquette": {
+    "message": "🤝 Сообщество и Этикет",
+    "description": "The label for category '🤝 Community & Etiquette' in sidebar 'wikiSidebar'"
+  }
+}

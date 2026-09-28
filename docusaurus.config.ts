@@ -22,7 +22,7 @@ const config: Config = {
 
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: ['en', 'hy', 'ru'],
     localeConfigs: {
       en: {
         label: 'English',
@@ -123,6 +123,10 @@ const config: Config = {
         {
           href: 'https://github.com/msh-am/msh-am',
           label: 'GitHub',
+          position: 'right',
+        },
+        {
+          type: 'localeDropdown',
           position: 'right',
         },
       ],

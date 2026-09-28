@@ -1,0 +1,30 @@
+{
+  "title": {
+    "message": "MSH.AM",
+    "description": "The title in the navbar"
+  },
+  "logo.alt": {
+    "message": "Meshtastic Հայաստանի Համայնքի Լոգո",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.Wiki & Docs": {
+    "message": "Վիկի և Փաստաթղթեր",
+    "description": "Navbar item with label Wiki & Docs"
+  },
+  "item.label.Live Dashboard": {
+    "message": "Ուղիղ Վահանակ",
+    "description": "Navbar item with label Live Dashboard"
+  },
+  "item.label.Frequencies": {
+    "message": "Հաճախյություններ",
+    "description": "Navbar item with label Frequencies"
+  },
+  "item.label.Telegram": {
+    "message": "Telegram",
+    "description": "Navbar item with label Telegram"
+  },
+  "item.label.GitHub": {
+    "message": "GitHub",
+    "description": "Navbar item with label GitHub"
+  }
+}
