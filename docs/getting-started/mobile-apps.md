@@ -50,14 +50,37 @@ Under **Settings -> Device**:
 - ⚠️ **`ROUTER`** is recommended **ONLY** for rooftops (floor 9 or higher) or mountain peaks.
 - Note: The legacy `REPEATER` role is deprecated. Do not use `ROUTER_CLIENT` or `SENSOR`.
 
-### 4. MQTT & Live Map (Optional for Home Nodes)
-If your node is connected to home Wi-Fi and you want to contribute reception to the Armenian community live map:
+### 4. Channels & Armenia Community Network
+By default, setting your region to `EU_868` and preset to `MediumFast` will connect you to the primary community channel.
+- **Primary Channel**: `MediumFast` (PSK: `AQ==`, Uplink: `YES`, Downlink: `NO`)
+- **Emergency Channel**: `Emergency-AM` (Secondary channel with PSK: `AQ==` for search and rescue)
+- 👉 See the full [Channel Configuration Guide](/docs/frequencies-and-channels/channel-settings) for instructions and private channels.
+
+### 5. Position & GPS Settings
+Under **Settings -> Position**:
+- **Portable / Handheld Nodes**:
+  - Enable **Smart Position**: Toggles dynamic location broadcasting based on movement distance instead of a fixed timer. When resting or stationary, the radio stops sending repetitive coordinate packets, saving battery and airtime.
+- **Home / Stationary Nodes (`CLIENT_BASE`, `CLIENT_MUTE`)**:
+  - Set a **Fixed Position** or increase the broadcast interval to **at least 30 to 120 minutes** (1800 to 7200 seconds). Never leave stationary nodes broadcasting GPS fixes every 1–2 minutes.
+
+### 6. Telemetry Settings (Home Nodes & Battery-less Devices)
+Under **Settings -> Telemetry**:
+- **Home Nodes (USB-Powered 24/7)**:
+  - **Disable Device Metrics** (battery / voltage) or increase update intervals to **2–6 hours** (7200 to 21600 seconds). A node permanently connected to 5V mains power broadcasting "100% battery" every 2 minutes wastes shared community airtime.
+- **Nodes Without Batteries**:
+  - If your device operates purely on USB without an 18650 or LiPo battery, disable battery telemetry to prevent flooding the mesh with 0V / 0% readings.
+- **Environment Telemetry**:
+  - Leave disabled unless physical sensors (BME280/BMP280) are soldered to the device.
+
+### 7. MQTT & Live Map (For Home Nodes on Wi-Fi)
+If your node is stationary and connected to home Wi-Fi, you can contribute your reception to the community map:
 Under **Settings -> Module Config -> MQTT**:
 - **MQTT Enabled**: `ON`
 - **Server Address**: `mqtt.msh.am`
-- **Username**: `meshdev` (default)
-- **Password**: `large4cats` (default)
+- **Username**: `meshdev`
+- **Password**: `large4cats`
 - **Uplink Enabled**: `YES`
 - **Downlink Enabled**: ❌ **`NO`** (Keep OFF to protect RF channels from internet spam)
 - **Topic**: `/msh/EU_868/AM/`
+- 👉 Read the complete [Community MQTT Setup Guide](/docs/frequencies-and-channels/mqtt-settings).
 

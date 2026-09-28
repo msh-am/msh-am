@@ -182,12 +182,6 @@ export default function FrequenciesPage(): ReactNode {
                   <td>Mountaineering distress alerts, search & rescue coordination</td>
                 </tr>
                 <tr>
-                  <td style={{ fontWeight: 700, color: 'var(--msh-text-primary)' }}>Telemetry-AM</td>
-                  <td><span style={{ color: '#0284c7', fontWeight: 600 }}>Data / Sensor</span></td>
-                  <td style={{ fontFamily: 'monospace' }}>AQ==</td>
-                  <td>Weather stations, air quality sensors, solar voltage feeds</td>
-                </tr>
-                <tr>
                   <td style={{ fontWeight: 700, color: 'var(--msh-text-primary)' }}>Custom / Private</td>
                   <td><span style={{ color: '#9333ea', fontWeight: 600 }}>Encrypted</span></td>
                   <td style={{ fontFamily: 'monospace' }}>Random AES-256</td>

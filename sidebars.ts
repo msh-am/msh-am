@@ -21,6 +21,7 @@ const sidebars: SidebarsConfig = {
       items: [
         'frequencies-and-channels/armenia-standards',
         'frequencies-and-channels/channel-settings',
+        'frequencies-and-channels/mqtt-settings',
       ],
     },
     {

@@ -15,6 +15,11 @@ const config: Config = {
 
   onBrokenLinks: 'warn',
 
+  markdown: {
+    mermaid: true,
+  },
+  themes: ['@docusaurus/theme-mermaid'],
+
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
@@ -146,6 +151,14 @@ const config: Config = {
             {
               label: 'Armenia Standards',
               to: '/docs/frequencies-and-channels/armenia-standards',
+            },
+            {
+              label: 'Channel Settings',
+              to: '/docs/frequencies-and-channels/channel-settings',
+            },
+            {
+              label: 'MQTT Gateway Setup',
+              to: '/docs/frequencies-and-channels/mqtt-settings',
             },
             {
               label: 'Hardware Guide',

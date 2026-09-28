@@ -38,17 +38,34 @@ Keep your node identity simple, clean, and compatible:
 
 ---
 
-## 3. Position & Telemetry Broadcast Intervals
+## 3. Position & GPS Broadcast Intervals
 
-- **Position Updates**: Set GPS broadcast interval to at least **15–30 minutes** (900–1800 seconds) when stationary, or enable "Smart Position" with distance thresholds.
+Broadcasting coordinates every 60 seconds severely saturates the shared 868 MHz channel and drains node batteries across the city!
+- **Enable Smart Position (For Portable / Mobile Nodes)**:
+  - Turn **Smart Position** ON under **Settings -> Position**.
+  - Smart Position adapts transmissions dynamically: when resting or walking slowly, the node stops broadcasting duplicates; when traveling past your configured minimum distance threshold (e.g. 100m), it transmits an updated fix.
+- **Stationary Home Nodes (`CLIENT_BASE`, `CLIENT_MUTE`)**:
+  - Increase GPS broadcast intervals to **at least 30 to 120 minutes** (1800 to 7200 seconds), or configure a Fixed Position once.
 - **Node Info Broadcast**: Set to **3–6 hours** (10,800 to 21,600 seconds).
-- Broadcasting position every 60 seconds saturates the shared channel and drains node batteries across the city!
 
 ---
 
-## 4. MQTT & Gateway Etiquette
+## 4. Telemetry Etiquette: Conserving Spectrum
+
+Device telemetry packets (battery voltage, channel utilization) can quickly consume 40%+ of mesh airtime if left unconfigured:
+- **Stationary Home Nodes (Plugged into USB 24/7)**:
+  - **Disable Device Telemetry** or increase the interval to **2–6 hours**. Continuously broadcasting "100% battery" every 2 minutes wastes shared airtime and offers zero practical value.
+- **Nodes Operating Without a Battery**:
+  - If your device has no LiPo / 18650 cell attached and runs exclusively on USB power, disable battery telemetry to avoid polluting the mesh with 0V / 0% readings.
+- **Environment Telemetry**:
+  - Disable environment sensors unless physical sensors (BME280, BMP280, SHT31) are actively wired to the node. When installed, set sensor broadcast intervals to **30–60 minutes**.
+
+---
+
+## 5. MQTT & Gateway Etiquette
 
 1. **Keep Downlink Disabled on Client Nodes**: Unless you are a network operator managing an authorized bidirectional bridge, **never enable Downlink** on public MQTT. Downlink rebroadcasts internet packets over RF, easily saturating the local 868 MHz airtime.
 2. **Respect `ignore_mqtt` and `OkToMQTT`**: The community values privacy and consent. The official gateway only forwards packets to public MQTT if `OkToMQTT` is enabled, and strictly drops packets from nodes configured with `ignore_mqtt = true`.
 3. **Use the Designated Regional Topic**: Always use `/msh/EU_868/AM/` to properly route Armenian mesh telemetry.
+4. **Learn More**: Read the comprehensive [Channel Configuration Guide](/docs/frequencies-and-channels/channel-settings) and [Community MQTT Setup Guide](/docs/frequencies-and-channels/mqtt-settings).
 
