@@ -49,6 +49,6 @@ Keep your node identity simple, clean, and compatible:
 ## 4. MQTT & Gateway Etiquette
 
 1. **Keep Downlink Disabled on Client Nodes**: Unless you are a network operator managing an authorized bidirectional bridge, **never enable Downlink** on public MQTT. Downlink rebroadcasts internet packets over RF, easily saturating the local 868 MHz airtime.
-2. **Respect `ignore_mqtt`**: The community values privacy. Never configure custom ingestors or bridges to republish nodes that have opted out of internet tracking (`ignore_mqtt = true`).
-3. **Use the Designated Regional Topic**: Always use `msh/AM` to avoid polluting global MQTT channels or leaking regional telemetry.
+2. **Respect `ignore_mqtt` and `OkToMQTT`**: The community values privacy and consent. The official gateway only forwards packets to public MQTT if `OkToMQTT` is enabled, and strictly drops packets from nodes configured with `ignore_mqtt = true`.
+3. **Use the Designated Regional Topic**: Always use `/msh/EU_868/AM/` to properly route Armenian mesh telemetry.
 

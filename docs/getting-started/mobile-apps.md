@@ -59,5 +59,5 @@ Under **Settings -> Module Config -> MQTT**:
 - **Password**: `large4cats` (default)
 - **Uplink Enabled**: `YES`
 - **Downlink Enabled**: ❌ **`NO`** (Keep OFF to protect RF channels from internet spam)
-- **Topic**: `msh/AM`
+- **Topic**: `/msh/EU_868/AM/`
 

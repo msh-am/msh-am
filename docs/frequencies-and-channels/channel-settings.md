@@ -64,11 +64,11 @@ If you have a home node (`CLIENT_BASE` or stationary `CLIENT`) connected to home
 - **Username**: `meshdev` (default)
 - **Password**: `large4cats` (default)
 - **Uplink Enabled**: `YES` (Sends received RF packets to the community dashboard)
-- **Downlink Enabled**: ❌ **`NO`** (CRITICAL: Do not enable downlink. Enabling downlink injects internet traffic back into the 868 MHz RF airwaves, creating packet collisions for everyone!)
-- **Topic Root**: `msh/AM`
+- **Topic Root**: `/msh/EU_868/AM/`
 
-:::tip Privacy & `ignore_mqtt`
-If you do not want your personal node or coordinates to appear on the public live dashboard, simply enable **Ignore MQTT** (`lora.ignore_mqtt = true`) in your node's LoRa settings. Other nodes running native MQTT will respect this flag and will **not** uplink your packets to the server.
+:::tip Privacy, `OkToMQTT`, & `ignore_mqtt`
+- **`OkToMQTT`**: Mesh packets are only uplinked from `mqtt.msh.am` to the global Meshtastic public map if `OkToMQTT` (`lora.config_ok_to_mqtt = true`) is enabled on your device.
+- **`Ignore MQTT`**: If you do not want your personal node or coordinates to be relayed to the public internet, enable **Ignore MQTT** (`lora.ignore_mqtt = true`) in your node's LoRa settings. The gateway strictly drops these packets from public uplink.
 :::
 
 ### B. Core Admins: Backbone Serial Ingestors
