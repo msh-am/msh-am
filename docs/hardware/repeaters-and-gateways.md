@@ -22,7 +22,7 @@ The **Heltec V4** represents a massive leap forward from the older V3 board, spe
 - **Connectivity**: Wi-Fi 802.11 b/g/n, Bluetooth 5 LE, USB-C
 - **Power Management**: Onboard solar panel charging circuit with integrated Battery Management System (BMS).
 - **GNSS / GPS**: Dedicated JST header for optional L76K GPS module
-- **Approximate Price**: ~$22 – $28
+- **Approximate Price**: ~$25 (~9,250 ֏)
 
 ### Ideal Deployment in Armenia
 - **Home MQTT Gateway**: Plugged continuously into USB-C power, connected to your home Wi-Fi. It bridges local RF packets to the Armenian community MQTT server (`mqtt.msh.am`), allowing nodes in your neighborhood to appear on the [Live Mesh Dashboard](/dashboard).
@@ -45,7 +45,7 @@ The **RAK WisBlock** modular architecture is the undisputed gold standard for au
 - **Power Consumption**: **Under 15 mA idle current**, allowing the node to operate for weeks of overcast blizzard conditions on a standard battery.
 - **Built-in Solar Charger**: Dedicated JST solar input connector supporting 5V photovoltaic panels with auto-recharging circuitry.
 - **Enclosures**: Factory **RAK Unify IP67** polycarbonate outdoor enclosures with integrated pole clamps and N-type antenna feedthroughs.
-- **Approximate Price**: ~$40 (Base + Core) to ~$75 (Full solar kit with enclosure)
+- **Approximate Price**: ~$55 (~20,350 ֏) (from ~$40 for Base + Core to ~$75 with full outdoor kit)
 
 ### Environmental Telemetry Add-Ons
 Using the modular WisBlock bus, you can plug in sensor modules without soldering:
@@ -63,7 +63,7 @@ For operators who want a mount-ready solar repeater without sourcing separate bo
 - **Weatherproofing**: Heavy-duty IP65/IP66 anodized aluminum housing with heat-dissipating cooling fins.
 - **Integrated GNSS**: Onboard GPS for automatic repeater locator positioning.
 - **Installation**: Universal pole and wall mounting clamps included in the box.
-- **Approximate Price**: ~$120 – $150
+- **Approximate Price**: ~$135 (~50,000 ֏)
 
 ### Why Choose the MeshTower?
 - **Zero Assembly**: No drilling waterproof cable glands, no soldering battery leads, and no crimping solar cables.
@@ -73,7 +73,7 @@ For operators who want a mount-ready solar repeater without sourcing separate bo
 
 ## 4. DIY Solar Repeater with Heltec T114 — The Ultra-Budget Mountain Build
 
-If the RAK WisBlock or MeshTower exceeds your budget, you can assemble a rock-solid autonomous solar repeater using the **Heltec Mesh Node T114** for **under $45 total**.
+If the RAK WisBlock or MeshTower exceeds your budget, you can assemble a rock-solid autonomous solar repeater using the **Heltec Mesh Node T114** for **under $45 total (~16,650 ֏)**.
 
 ```
 [ 5V / 5W Compact Solar Panel ]

@@ -22,7 +22,7 @@ The **Heltec T114** is the modern low-power evolution of budget DIY LoRa nodes, 
 - **GNSS / GPS**: Available as board add-on or bundled variant
 - **Power & Battery**: Built-in LiPo charging circuit with JST-GH 1.25mm connector; quiescent draw is under 15 mA.
 - **Battery Life**: **3 to 5 days** on a small 1200–1500 mAh battery; over a week on an 18650 cell.
-- **Approximate Price**: ~$25 – $34 (AliExpress / Heltec official)
+- **Approximate Price**: ~$30 (~11,000 ֏, AliExpress / Heltec official)
 
 ### Why It Excels in Armenia
 The T114 bridges the gap between raw developer boards and expensive turnkey handhelds. It runs cool, consumes minimal battery, and features a bright color display that shows received packet logs, signal SNR/RSSI, and node counts.
@@ -43,7 +43,7 @@ The **LilyGO T-Echo** is one of the most reliable and widely tested all-in-one h
 - **GNSS / GPS**: Integrated Quectel L76K GNSS module with dedicated active ceramic antenna
 - **Battery**: Included 850 mAh rechargeable Li-Po battery
 - **Enclosure**: Molded ABS pocket enclosure with lanyard loop and external reset/user buttons
-- **Approximate Price**: ~$55 – $65
+- **Approximate Price**: ~$60 (~22,200 ֏)
 
 ### Why It Excels in Armenia
 - **Direct Sunlight Visibility**: The reflective E-Ink display is perfectly readable under bright Armenian alpine sun where OLED screens wash out.
@@ -63,7 +63,7 @@ The **Wio Tracker L1 Pro** is a purpose-built field communicator designed by See
 - **Battery**: Built-in high-capacity **2000 mAh** rechargeable battery
 - **Physical Controls**: Dedicated 4-way navigation D-pad and action button
 - **Enclosure**: Factory ruggedized shell with textured grip and lanyard attachment
-- **Approximate Price**: ~$45 – $55
+- **Approximate Price**: ~$50 (~18,500 ֏)
 
 ### Why It Excels in Armenia
 - **Massive Built-in Battery**: With 2000 mAh onboard, the L1 Pro delivers **4 to 7 days** of continuous field operation without needing a recharge or external battery bank.
@@ -84,7 +84,7 @@ The **SenseCAP T1000-E** reimagines LoRa tracking into a credit-card format that
 - **Sensors**: Ambient light sensor, temperature sensor, 3-axis accelerometer
 - **Interface**: Multicolor status LED, buzzer, and recessed SOS button
 - **Battery Life**: **3 to 4 days** typical tracker operation (700 mAh internal cell)
-- **Approximate Price**: ~$35 – $42
+- **Approximate Price**: ~$39 (~14,400 ֏)
 
 ### Why It Excels in Armenia
 - **Discreet Everyday Carry**: Slip it into a child’s school bag, an elder's coat, or an emergency car glovebox. It requires no delicate SMA antenna connector or bulky enclosure.
@@ -104,7 +104,7 @@ The **MeshTracker X1** is Seeed Studio’s upgraded precision tracker, introduci
 - **Telemetry Sensors**: High-precision barometric altimeter, temperature, and motion sensors
 - **Feedback**: Built-in haptic vibration motor and acoustic buzzer
 - **Battery Life**: **4 to 5 days** (1100 mAh internal cell)
-- **Approximate Price**: ~$45 – $55
+- **Approximate Price**: ~$50 (~18,500 ֏)
 
 ### Why It Excels in Armenia
 - **L1 + L5 Dual-Band GNSS**: In deep gorges (such as Garni or Vorotan) or steep mountain terrain where single-band GPS suffers multi-path distortion, the dual-band receiver locks onto satellites significantly faster and provides pinpoint tracking.
@@ -125,7 +125,7 @@ The **LilyGO T-Deck Plus** is an all-in-one cyberdeck communicator featuring a p
 - **Audio**: Built-in microphone, speaker, and ES7210 audio codec
 - **Battery**: Included 2000 mAh rechargeable battery inside an injection-molded enclosure
 - **Battery Life**: **14 to 20 hours** active use
-- **Approximate Price**: ~$60 – $75
+- **Approximate Price**: ~$68 (~25,000 ֏)
 
 ### Why It Excels in Armenia
 - **True Off-Grid Texting**: Type custom direct and channel messages directly using the physical keyboard. No Bluetooth pairing, no phone app, and no cellular connection required.

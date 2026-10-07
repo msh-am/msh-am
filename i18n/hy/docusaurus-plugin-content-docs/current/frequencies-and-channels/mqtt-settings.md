@@ -14,12 +14,13 @@ Meshtastic Հայաստանը ունի պաշտոնական MQTT բրոկեր (`
 
 | Կարգավորում | Արժեք | Նոտա |
 | :--- | :--- | :--- |
-| **MQTT Enabled** | `ON` | Հիմնական անջատիչ |
+| **MQTT Enabled** | `ON` | Հիմնական անջատիչ (Options) |
+| **Encryption Enabled** | `ON` | Options-ում՝ պահպանում է ալիքի փաթեթների ծածկագրումը |
 | **Server Address** | `mqtt.msh.am` | Համայնքային բրոկեր |
 | **Server Port** | `1883` | Ստանդարտ MQTT պորտ |
+| **TLS Enabled** | `OFF` | Server-ում՝ TLS չի օգտագործվում 1883 պորտի համար |
 | **Username** | `meshdev` | Համայնքային մուտք |
 | **Password** | `large4cats` | Ստանդարտ գաղտնաբառ |
-| **Encryption** | `OFF` | Ստանդարտ պորտի համար |
 | **Root Topic** | `/msh/EU_868/AM/` | Տարածաշրջանային թեմա |
 | **Uplink** | `YES` | Միացրեք |
 | **Downlink** | **`NO`** | **ԿԱՌԵՎՈՌ: Երբեք մի միացրեք** |

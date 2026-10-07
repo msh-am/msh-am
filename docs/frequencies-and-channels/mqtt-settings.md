@@ -25,12 +25,13 @@ Configure your device using the Meshtastic mobile app (Android / iOS) or the Web
 
 | Setting Parameter | Required Value | Notes |
 | :--- | :--- | :--- |
-| **MQTT Enabled** | `ON` (Enabled) | Master switch in Module Config |
+| **MQTT Enabled** | `ON` (Enabled) | Master switch under Options in MQTT Module Config |
+| **Encryption Enabled** | `ON` (Enabled) | Under Options: Preserves channel message encryption over MQTT |
 | **Server Address** | `mqtt.msh.am` | Public community broker |
 | **Server Port** | `1883` | Default standard MQTT port |
+| **TLS Enabled** | `OFF` (Disabled) | Under Server: Do not enable TLS on unencrypted port 1883 |
 | **Username** | `meshdev` | Community access credential |
 | **Password** | `large4cats` | Standard Meshtastic community password |
-| **Encryption Enabled** | `OFF` (Disabled) | Do not enable TLS on port 1883 |
 | **Root Topic** | `/msh/EU_868/AM/` | Regional topic root (leading slash required) |
 | **Channel Uplink Enabled** | `YES` | Must be turned on under Channel Settings |
 | **Downlink Enabled** | ❌ **`NO` (Disabled)** | **CRITICAL**: Never enable on community client nodes |
@@ -41,13 +42,16 @@ Configure your device using the Meshtastic mobile app (Android / iOS) or the Web
 
 1. Open the **Meshtastic app** and connect to your node over Bluetooth.
 2. Tap **Settings** (gear icon) -> **Module Config** -> **MQTT**.
-3. Toggle **MQTT Enabled** to **ON**.
-4. In **Server Address**, enter `mqtt.msh.am`.
-5. Enter **Username**: `meshdev` and **Password**: `large4cats`.
-6. Ensure **Encryption** is toggled **OFF**.
-7. Set **Root Topic** to `/msh/EU_868/AM/`.
-8. Save settings (the node will restart).
-9. Next, go to **Channels** -> select your primary channel (`MediumFast`):
+3. Under **Options**:
+   - Toggle **MQTT Enabled** to **ON**.
+   - Keep **Encryption Enabled** toggled **ON** (preserves packet encryption using channel keys).
+4. Under **Server**:
+   - In **Address**, enter `mqtt.msh.am`.
+   - Ensure **TLS Enabled** is toggled **OFF** (port 1883 does not use TLS).
+   - Enter **Username**: `meshdev` and **Password**: `large4cats`.
+5. Under **Root Topic**, set the topic to `/msh/EU_868/AM/`.
+6. Save settings (the node will restart).
+7. Next, go to **Channels** -> select your primary channel (`MediumFast`):
    - Set **Uplink Enabled** to **ON**.
    - Keep **Downlink Enabled** set to **OFF**.
 

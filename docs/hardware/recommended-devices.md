@@ -63,16 +63,18 @@ All devices listed below support **EU_868 (868 MHz)**:
 
 | Device | Platform | LoRa Radio | Display | GNSS (GPS) | Battery & Runtime | Enclosure | Approx. Price | Primary Role |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Heltec WiFi LoRa 32 V4** | ESP32-S3 | SX1262 + PA (+28dBm) | 0.96″ OLED | Optional | External LiPo (~12 hrs) | Bare / 3D Shell | $22 – $28 | Home Desk / Wi-Fi Gateway |
-| **Heltec Mesh Node T114** | nRF52840 | SX1262 (+22dBm) | 1.14″ TFT | Optional | External LiPo (3–5 days) | Bare / 3D Case | $25 – $34 | Budget Pocket Node / EDC |
-| **LilyGO T-Echo** | nRF52840 | SX1262 (+22dBm) | 1.54″ E-Ink | Quectel GPS | 850 mAh built-in (3–5 days)| Rugged Turnkey | $55 – $65 | Alpine Hiking / Sunlight EDC |
-| **Seeed Wio Tracker L1 Pro** | nRF52840 | SX1262 (+22dBm) | 1.3″ OLED | L76K GPS | 2000 mAh built-in (4–7 days)| Rugged Shell + D-pad | $45 – $55 | Field Communicator |
-| **Seeed SenseCAP T1000-E** | nRF52840 | LR1110 (+22dBm) | None (LED) | High-precision | 700 mAh (3–4 days) | 6.5mm Card (IP65) | $35 – $42 | Discreet Pocket/Badge Tracker |
-| **Seeed MeshTracker X1** | nRF52840 | Semtech LR2021 | None (Buzzer/LED)| Dual-Band L1+L5 | 1100 mAh (4–5 days) | 8mm Card (IP66) | $45 – $55 | Extreme Precision Trail Tracker |
-| **LilyGO T-Deck Plus** | ESP32-S3 | SX1262 (+22dBm) | 2.8″ IPS LCD | Onboard GPS | 2000 mAh (14–20 hrs) | Turnkey QWERTY Case | $60 – $75 | Standalone Phone-Free Texting |
-| **RAK Wireless WisBlock** | nRF52840 | SX1262 (+22dBm) | Modular OLED | Optional | Solar / External (under 15mA) | Modular / Unify IP67 | $40 – $70 | Mountaintop Solar Repeater |
-| **Heltec MeshTower** | nRF52840 | SX1262 (+22dBm) | None | Integrated GPS | 10W Solar + 3x 18650 bank | Aluminum IP66 Tower | $120 – $150 | Turnkey Rooftop Solar Tower |
-| **DIY Solar with T114** | nRF52840 | SX1262 (+22dBm) | Optional | Optional | 5W Solar + 18650 / LiFePO4| IP67 Junction Box | $40 – $50 | Low-Cost Hilltop Repeater |
+| **Heltec WiFi LoRa 32 V4** | ESP32-S3 | SX1262 + PA (+28dBm) | 0.96″ OLED | Optional | External LiPo (~12 hrs) | Bare / 3D Shell | ~$25 (~9,250 ֏) | Home Desk / Wi-Fi Gateway |
+| **Heltec Mesh Node T114** | nRF52840 | SX1262 (+22dBm) | 1.14″ TFT | Optional | External LiPo (3–5 days) | Bare / 3D Case | ~$30 (~11,000 ֏) | Budget Pocket Node / EDC |
+| **LilyGO T-Echo** | nRF52840 | SX1262 (+22dBm) | 1.54″ E-Ink | Quectel GPS | 850 mAh built-in (3–5 days)| Rugged Turnkey | ~$60 (~22,200 ֏) | Alpine Hiking / Sunlight EDC |
+| **Seeed Wio Tracker L1 Pro** | nRF52840 | SX1262 (+22dBm) | 1.3″ OLED | L76K GPS | 2000 mAh built-in (4–7 days)| Rugged Shell + D-pad | ~$50 (~18,500 ֏) | Field Communicator |
+| **Seeed SenseCAP T1000-E** | nRF52840 | LR1110 (+22dBm) | None (LED) | High-precision | 700 mAh (3–4 days) | 6.5mm Card (IP65) | ~$39 (~14,400 ֏) | Discreet Pocket/Badge Tracker |
+| **Seeed MeshTracker X1** | nRF52840 | Semtech LR2021 | None (Buzzer/LED)| Dual-Band L1+L5 | 1100 mAh (4–5 days) | 8mm Card (IP66) | ~$50 (~18,500 ֏) | Extreme Precision Trail Tracker |
+| **LilyGO T-Deck Plus** | ESP32-S3 | SX1262 (+22dBm) | 2.8″ IPS LCD | Onboard GPS | 2000 mAh (14–20 hrs) | Turnkey QWERTY Case | ~$68 (~25,000 ֏) | Standalone Phone-Free Texting |
+| **RAK Wireless WisBlock** | nRF52840 | SX1262 (+22dBm) | Modular OLED | Optional | Solar / External (under 15mA) | Modular / Unify IP67 | ~$55 (~20,350 ֏) | Mountaintop Solar Repeater |
+| **Heltec MeshTower** | nRF52840 | SX1262 (+22dBm) | None | Integrated GPS | 10W Solar + 3x 18650 bank | Aluminum IP66 Tower | ~$135 (~50,000 ֏) | Turnkey Rooftop Solar Tower |
+| **DIY Solar with T114** | nRF52840 | SX1262 (+22dBm) | Optional | Optional | 5W Solar + 18650 / LiFePO4| IP67 Junction Box | ~$45 (~16,650 ֏) | Low-Cost Hilltop Repeater |
+
+*Note: Prices in Armenian Dram (֏) are approximate averages based on 1 USD = 370 AMD (excluding shipping and customs fees).*
 
 ---
 
