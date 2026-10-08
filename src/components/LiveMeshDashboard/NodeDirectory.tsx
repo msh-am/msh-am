@@ -4,24 +4,25 @@ import {
   Radio, 
   Battery, 
   BatteryCharging, 
-  Signal, 
   MapPin, 
   Cpu, 
-  Layers, 
   WifiOff,
-  Clock
+  Clock,
+  Antenna
 } from 'lucide-react';
 import type { MeshNode, NodeRole } from '../../types/mesh';
 import styles from './styles.module.css';
 
 interface NodeDirectoryProps {
   nodes: MeshNode[];
+  onSelectNode?: (nodeId: string) => void;
 }
 
-export default function NodeDirectory({ nodes }: NodeDirectoryProps): React.JSX.Element {
+export default function NodeDirectory({ nodes, onSelectNode }: NodeDirectoryProps): React.JSX.Element {
   const [searchQuery, setSearchQuery] = useState('');
   const [roleFilter, setRoleFilter] = useState<'ALL' | 'ONLINE' | 'ROUTER' | 'CLIENT'>('ALL');
   const [sortBy, setSortBy] = useState<'lastHeard' | 'snr' | 'battery' | 'name'>('lastHeard');
+  const [activeTooltipNodeId, setActiveTooltipNodeId] = useState<string | null>(null);
 
   const filteredNodes = useMemo(() => {
     return nodes
@@ -71,10 +72,13 @@ export default function NodeDirectory({ nodes }: NodeDirectoryProps): React.JSX.
   const getRoleBadgeClass = (role: NodeRole) => {
     switch (role) {
       case 'ROUTER':
+      case 'ROUTER_LATE':
+      case 'REPEATER':
         return styles.roleBadgeRepeater;
       case 'CLIENT_BASE':
         return styles.roleBadgeBase;
       case 'CLIENT_MUTE':
+      case 'CLIENT_HIDDEN':
         return styles.roleBadgeMute;
       case 'TRACKER':
         return styles.roleBadgeTracker;
@@ -174,112 +178,265 @@ export default function NodeDirectory({ nodes }: NodeDirectoryProps): React.JSX.
         </div>
       ) : (
         <div className={styles.nodeGrid}>
-          {filteredNodes.map((node) => (
-            <div 
-              key={node.id} 
-              className={`${styles.nodeCard} ${!node.isOnline ? styles.nodeCardOffline : ''}`}
-            >
-              {/* Card Header */}
-              <div className={styles.cardHeader}>
-                <div className={styles.cardTitleArea}>
-                  <div className={styles.statusIndicator}>
-                    <span 
-                      className={node.isOnline ? styles.onlineIndicator : styles.offlineIndicator} 
-                      title={node.isOnline ? 'Online (heard < 24h)' : 'Offline / Inactive'}
-                    />
-                    <span className={styles.nodeShortName}>{node.shortName}</span>
+          {filteredNodes.map((node) => {
+            const receivers = (node.heardBy && node.heardBy.length > 0)
+              ? node.heardBy
+              : (node.lastHeardBy ? (() => {
+                  const gwNode = nodes.find(n => n.id === node.lastHeardBy);
+                  return [{
+                    node_id: node.lastHeardBy,
+                    short_name: gwNode?.shortName || node.lastHeardBy.slice(-4).toUpperCase(),
+                    long_name: gwNode?.longName || `Gateway ${node.lastHeardBy}`,
+                    role: gwNode?.role || 'GATEWAY',
+                    snr: node.snr,
+                    rssi: node.rssi,
+                    source: 'mqtt',
+                    timestamp: node.lastHeard,
+                  }];
+                })() : null);
+
+            return (
+              <div 
+                key={node.id} 
+                className={`${styles.nodeCard} ${!node.isOnline ? styles.nodeCardOffline : ''}`}
+                style={{ zIndex: activeTooltipNodeId === node.id ? 50 : 1, position: 'relative' }}
+              >
+                {/* Card Header */}
+                <div className={styles.cardHeader}>
+                  <div className={styles.cardTitleArea}>
+                    <div className={styles.statusIndicator}>
+                      <span 
+                        className={node.isOnline ? styles.onlineIndicator : styles.offlineIndicator} 
+                        title={node.isOnline ? 'Online (heard < 24h)' : 'Offline / Inactive'}
+                      />
+                      <span className={styles.nodeShortName}>{node.shortName}</span>
+                    </div>
+                    <h4 className={styles.nodeLongName} title={node.longName}>
+                      {node.longName}
+                    </h4>
                   </div>
-                  <h4 className={styles.nodeLongName} title={node.longName}>
-                    {node.longName}
-                  </h4>
-                </div>
 
-                <span className={`${styles.roleBadge} ${getRoleBadgeClass(node.role)}`}>
-                  {node.role}
-                </span>
-              </div>
-
-              {/* Card Meta (Region & ID) */}
-              <div className={styles.cardMeta}>
-                {node.region && (
-                  <span className={styles.regionTag}>
-                    <MapPin size={13} />
-                    <span>{node.region}</span>
-                    {node.altitude && <span className={styles.altitudeTag}>{node.altitude}m</span>}
+                  <span className={`${styles.roleBadge} ${getRoleBadgeClass(node.role)}`}>
+                    {node.role}
                   </span>
-                )}
-                <span className={styles.idTag}>{node.id}</span>
+                </div>
+
+                {/* Card Meta (Region & ID) */}
+                <div className={styles.cardMeta}>
+                  {node.region && (
+                    <span className={styles.regionTag}>
+                      <MapPin size={13} />
+                      <span>{node.region}</span>
+                      {node.altitude && <span className={styles.altitudeTag}>{node.altitude}m</span>}
+                    </span>
+                  )}
+                  <span className={styles.idTag}>{node.id}</span>
+                </div>
+
+                {/* Telemetry Metrics */}
+                <div className={styles.telemetryGrid}>
+                  {/* Battery */}
+                  <div className={styles.telemetryItem} title="Battery Level">
+                    <div className={styles.telemetryLabel}>
+                      <Battery size={13} />
+                      <span>Battery</span>
+                    </div>
+                    <div className={styles.telemetryValue} style={{ color: getBatteryColor(node.batteryLevel) }}>
+                      {node.batteryLevel != null ? `${node.batteryLevel}%` : 'N/A'}
+                      {node.voltage != null && typeof node.voltage === 'number' && !isNaN(node.voltage) && (
+                        <span className={styles.voltageSub}>{node.voltage.toFixed(2)}V</span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Hardware Model */}
+                  <div className={styles.telemetryItem} title="Hardware Device">
+                    <div className={styles.telemetryLabel}>
+                      <Cpu size={13} />
+                      <span>Hardware</span>
+                    </div>
+                    <div className={styles.telemetryValue} title={node.hwModel || 'UNKNOWN'}>
+                      {(node.hwModel || 'UNKNOWN').replace('_', ' ')}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Card Footer */}
+                <div className={styles.cardFooter} style={{ position: 'relative' }}>
+                  <div className={styles.lastSeen} style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', flexWrap: 'wrap' }}>
+                    <Clock size={12} />
+                    <span>Seen {getRelativeTime(node.lastHeard)}</span>
+
+                    {/* by (1) badge with hover popover */}
+                    {receivers && receivers.length > 0 && (
+                      <div
+                        style={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}
+                        onMouseEnter={() => setActiveTooltipNodeId(node.id)}
+                        onMouseLeave={() => setActiveTooltipNodeId(null)}
+                      >
+                      <button
+                        type="button"
+                        style={{
+                          background: 'rgba(16, 185, 129, 0.08)',
+                          border: '1px solid rgba(16, 185, 129, 0.25)',
+                          borderRadius: 4,
+                          padding: '0.08rem 0.35rem',
+                          color: 'var(--ifm-color-primary)',
+                          fontSize: '0.70rem',
+                          fontWeight: 600,
+                          cursor: 'pointer',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '0.2rem',
+                          lineHeight: 1.2,
+                        }}
+                        title="View gateways and listeners that heard this node"
+                      >
+                        <Antenna size={10} />
+                        <span>by ({receivers.length})</span>
+                      </button>
+
+                      {/* Popover on Hover */}
+                      {activeTooltipNodeId === node.id && (
+                        <div
+                          style={{
+                            position: 'absolute',
+                            bottom: '100%',
+                            left: 0,
+                            marginBottom: 8,
+                            width: 280,
+                            background: 'var(--msh-card-bg)',
+                            border: '1px solid var(--msh-card-border)',
+                            borderRadius: 8,
+                            boxShadow: '0 8px 24px rgba(0,0,0,0.35)',
+                            padding: '0.65rem 0.75rem',
+                            zIndex: 100,
+                            fontSize: '0.75rem',
+                            color: 'var(--msh-text-primary)',
+                            textAlign: 'left',
+                          }}
+                        >
+                          <div style={{
+                            fontWeight: 700,
+                            fontSize: '0.78rem',
+                            marginBottom: '0.45rem',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.35rem',
+                            color: 'var(--ifm-color-primary)',
+                            borderBottom: '1px solid var(--msh-card-border)',
+                            paddingBottom: '0.3rem',
+                          }}>
+                            <Antenna size={13} />
+                            <span>Heard & Committed by ({receivers.length})</span>
+                          </div>
+
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem', maxHeight: 200, overflowY: 'auto' }}>
+                            {receivers.map((r, idx) => (
+                              <div
+                                key={`${r.node_id}-${idx}`}
+                                style={{
+                                  background: 'var(--msh-telemetry-bg)',
+                                  borderRadius: 6,
+                                  padding: '0.45rem 0.55rem',
+                                  border: '1px solid var(--msh-card-border)',
+                                }}
+                              >
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.2rem' }}>
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                                    <span style={{ fontWeight: 700, color: 'var(--msh-text-primary)' }}>
+                                      {r.short_name || r.node_id}
+                                    </span>
+                                    <span style={{
+                                      fontSize: '0.65rem',
+                                      padding: '0.05rem 0.3rem',
+                                      borderRadius: 3,
+                                      background: 'rgba(168, 85, 247, 0.12)',
+                                      color: '#c084fc',
+                                      border: '1px solid rgba(168, 85, 247, 0.25)',
+                                      fontWeight: 600,
+                                    }}>
+                                      {r.role || 'GATEWAY'}
+                                    </span>
+                                  </div>
+                                  <span style={{ fontSize: '0.68rem', color: 'var(--msh-text-muted)' }}>
+                                    {r.node_id}
+                                  </span>
+                                </div>
+
+                                {r.long_name && (
+                                  <div style={{ fontSize: '0.72rem', color: 'var(--msh-text-secondary)', marginBottom: '0.25rem' }}>
+                                    {r.long_name}
+                                  </div>
+                                )}
+
+                                <div style={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'space-between',
+                                  fontSize: '0.68rem',
+                                  color: 'var(--msh-text-muted)',
+                                  paddingTop: '0.25rem',
+                                  borderTop: '1px dashed var(--msh-card-border)',
+                                }}>
+                                  <span>via {r.source === 'potatomesh' ? 'PotatoMesh Ingest' : 'MQTT Gateway'}</span>
+                                  {(r.snr !== undefined || r.rssi !== undefined) && (
+                                    <span style={{ color: 'var(--ifm-color-primary)', fontWeight: 600 }}>
+                                      {r.snr !== undefined ? `SNR: ${r.snr > 0 ? '+' : ''}${r.snr}dB` : ''}
+                                      {r.snr !== undefined && r.rssi !== undefined ? ' · ' : ''}
+                                      {r.rssi !== undefined ? `${r.rssi}dBm` : ''}
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                  {node.latitude && node.longitude ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (onSelectNode) {
+                          onSelectNode(node.id);
+                          const mapElem = document.getElementById('armenia-mesh-map');
+                          if (mapElem) {
+                            mapElem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                          }
+                        }
+                      }}
+                      style={{
+                        background: 'rgba(16, 185, 129, 0.1)',
+                        border: '1px solid rgba(16, 185, 129, 0.3)',
+                        color: 'var(--ifm-color-primary)',
+                        borderRadius: 4,
+                        padding: '0.15rem 0.5rem',
+                        fontSize: '0.72rem',
+                        fontWeight: 600,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.3rem',
+                        cursor: 'pointer',
+                        transition: 'all 0.15s ease',
+                      }}
+                      title="Focus and center on Armenia map"
+                    >
+                      <MapPin size={11} />
+                      <span>Show on map</span>
+                    </button>
+                  ) : (
+                    <span style={{ fontSize: '0.72rem', color: 'var(--msh-text-muted)' }}>
+                      No GPS
+                    </span>
+                  )}
+                </div>
               </div>
-
-              {/* Telemetry Metrics */}
-              <div className={styles.telemetryGrid}>
-                {/* Battery */}
-                <div className={styles.telemetryItem} title="Battery Level">
-                  <div className={styles.telemetryLabel}>
-                    <Battery size={13} />
-                    <span>Battery</span>
-                  </div>
-                  <div className={styles.telemetryValue} style={{ color: getBatteryColor(node.batteryLevel) }}>
-                    {node.batteryLevel != null ? `${node.batteryLevel}%` : 'N/A'}
-                    {node.voltage != null && typeof node.voltage === 'number' && !isNaN(node.voltage) && (
-                      <span className={styles.voltageSub}>{node.voltage.toFixed(2)}V</span>
-                    )}
-                  </div>
-                </div>
-
-                {/* Signal (SNR / RSSI) */}
-                <div className={styles.telemetryItem} title="Signal-to-Noise Ratio & RSSI">
-                  <div className={styles.telemetryLabel}>
-                    <Signal size={13} />
-                    <span>Signal</span>
-                  </div>
-                  <div className={styles.telemetryValue}>
-                    {node.snr != null && typeof node.snr === 'number' && !isNaN(node.snr)
-                      ? `${node.snr > 0 ? '+' : ''}${node.snr.toFixed(1)} dB`
-                      : 'N/A'}
-                    {node.rssi != null && <span className={styles.voltageSub}>{node.rssi} dBm</span>}
-                  </div>
-                </div>
-
-                {/* Hops */}
-                <div className={styles.telemetryItem} title="Hop Distance (0 = direct)">
-                  <div className={styles.telemetryLabel}>
-                    <Layers size={13} />
-                    <span>Hops</span>
-                  </div>
-                  <div className={styles.telemetryValue}>
-                    {node.hopsAway != null
-                      ? (node.hopsAway === 0 ? 'Direct (0)' : `${node.hopsAway} hop${node.hopsAway > 1 ? 's' : ''}`)
-                      : 'N/A'}
-                  </div>
-                </div>
-
-                {/* Hardware Model */}
-                <div className={styles.telemetryItem} title="Hardware Device">
-                  <div className={styles.telemetryLabel}>
-                    <Cpu size={13} />
-                    <span>Hardware</span>
-                  </div>
-                  <div className={styles.telemetryValue} title={node.hwModel || 'UNKNOWN'}>
-                    {(node.hwModel || 'UNKNOWN').replace('_', ' ')}
-                  </div>
-                </div>
-              </div>
-
-              {/* Card Footer */}
-              <div className={styles.cardFooter}>
-                <div className={styles.lastSeen}>
-                  <Clock size={12} />
-                  <span>Seen {getRelativeTime(node.lastHeard)}</span>
-                </div>
-                {node.latitude && node.longitude && (
-                  <span className={styles.gpsTag} title={`Lat: ${node.latitude}, Lon: ${node.longitude}`}>
-                    GPS Fixed
-                  </span>
-                )}
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>

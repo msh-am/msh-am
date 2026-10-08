@@ -2,6 +2,7 @@
  * Global Custom CSS for Meshtastic Armenia (msh.am)
  * Clean, technical, high-readability design for both Light and Dark themes.
  */
+@import 'leaflet/dist/leaflet.css';
 
 :root {
   --ifm-color-primary: #059669;
@@ -152,4 +153,30 @@ table td {
   background-color: rgba(239, 68, 68, 0.08);
   border-color: rgba(239, 68, 68, 0.3);
   color: var(--msh-text-primary);
+}
+
+/* Leaflet theme-adaptive enhancements for msh.am */
+.leaflet-popup-content-wrapper {
+  background: var(--msh-card-bg) !important;
+  color: var(--msh-text-primary) !important;
+  border: 1px solid var(--msh-card-border) !important;
+  border-radius: 10px !important;
+  box-shadow: var(--msh-card-shadow) !important;
+  padding: 0.2rem !important;
+}
+
+.leaflet-popup-tip {
+  background: var(--msh-card-bg) !important;
+  border: 1px solid var(--msh-card-border) !important;
+}
+
+.leaflet-popup-content {
+  margin: 0.75rem 0.9rem !important;
+  line-height: 1.4 !important;
+  font-family: var(--ifm-font-family-base) !important;
+}
+
+.leaflet-container {
+  font-family: var(--ifm-font-family-base) !important;
+  background-color: #0f172a !important;
 }

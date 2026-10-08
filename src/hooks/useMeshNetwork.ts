@@ -12,7 +12,7 @@ export function useMeshNetwork() {
   const [nodes, setNodes] = useState<MeshNode[]>([]);
   const [serverStats, setServerStats] = useState<MeshNetworkStats | null>(null);
   const [loading, setLoading] = useState(true);
-  const [statusMode, setStatusMode] = useState<'connected' | 'disconnected'>('connected');
+  const [statusMode, setStatusMode] = useState<'connected' | 'disconnected' | 'simulated'>('connected');
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
 
   const fetchData = useCallback(async () => {
@@ -59,6 +59,8 @@ export function useMeshNetwork() {
                   altitude: n.altitude ?? n.position?.altitude,
                   region: n.region || 'Armenia',
                   isOnline,
+                  lastHeardBy: n.lastHeardBy ?? n.rx_by ?? n.gateway_id ?? (n.hopsAway === 0 ? '!4355ec68' : undefined),
+                  heardBy: n.heardBy ?? (n.heard_by || undefined),
                 };
               })
               // Auto-remove nodes not heard in last week from Total

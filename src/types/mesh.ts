@@ -1,4 +1,4 @@
-export type NodeRole = 'CLIENT' | 'CLIENT_MUTE' | 'CLIENT_BASE' | 'ROUTER' | 'TRACKER';
+export type NodeRole = 'CLIENT' | 'CLIENT_MUTE' | 'CLIENT_BASE' | 'CLIENT_HIDDEN' | 'ROUTER' | 'ROUTER_LATE' | 'REPEATER' | 'TRACKER' | string;
 
 export interface MeshNode {
   id: string;             // e.g. "!2e4a1b8c"
@@ -20,6 +20,8 @@ export interface MeshNode {
   altitude?: number;
   region?: string;        // e.g. "Yerevan", "Mount Aragats", "Lake Sevan", "Dilijan"
   isOnline: boolean;      // heard within threshold (24h)
+  lastHeardBy?: string;   // node ID of gateway/repeater that heard this node
+  heardBy?: HeardByInfo[]; // list of nodes that received packets from this node
 }
 
 export interface MeshNetworkStats {
@@ -31,4 +33,32 @@ export interface MeshNetworkStats {
   lastPacketTime: number;
   mqttStatus: 'connected' | 'disconnected' | 'simulated';
   endpointUrl?: string;
+}
+
+export interface HeardByInfo {
+  node_id: string;
+  short_name?: string;
+  long_name?: string;
+  role?: NodeRole | string;
+  snr?: number;
+  rssi?: number;
+  source?: 'mqtt' | 'potatomesh' | string;
+  timestamp?: number;
+}
+
+export interface MeshMessage {
+  id: string;
+  from_id: string;
+  from_short_name?: string;
+  from_long_name?: string;
+  to_id?: string;
+  text: string;
+  channel?: string;
+  hops?: number;
+  timestamp: number;
+  latitude?: number;
+  longitude?: number;
+  region?: string;
+  role?: NodeRole | string;
+  heard_by?: HeardByInfo[];
 }

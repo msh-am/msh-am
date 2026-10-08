@@ -1,12 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   Radio, 
   Activity, 
-  Mountain, 
   BatteryCharging, 
-  RefreshCw 
+  RefreshCw,
+  MapPin,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react';
 import { useMeshNetwork } from '../../hooks/useMeshNetwork';
+import { useMeshMessages } from '../../hooks/useMeshMessages';
+import MeshMap from './MeshMap';
+import MessagesFeed from './MessagesFeed';
 import NodeDirectory from './NodeDirectory';
 import styles from './styles.module.css';
 
@@ -18,6 +23,28 @@ export default function LiveMeshDashboard(): React.JSX.Element {
     lastUpdated, 
     refresh 
   } = useMeshNetwork();
+
+  const {
+    messages,
+    loading: messagesLoading,
+    refresh: refreshMessages,
+  } = useMeshMessages(nodes);
+
+  const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
+  const [activeLink, setActiveLink] = useState<{
+    from: [number, number];
+    to: [number, number];
+    fromName?: string;
+    toName?: string;
+  } | null>(null);
+
+  const [isMapCollapsed, setIsMapCollapsed] = useState(false);
+  const [isChatCollapsed, setIsChatCollapsed] = useState(false);
+
+  const handleRefreshAll = () => {
+    refresh();
+    refreshMessages();
+  };
 
   return (
     <div style={{ maxWidth: 1300, margin: '0 auto', padding: '1.5rem 1rem' }}>
@@ -65,18 +92,18 @@ export default function LiveMeshDashboard(): React.JSX.Element {
               Meshtastic Armenia Live Dashboard
             </h1>
             <p style={{ margin: '0.3rem 0 0 0', color: 'var(--msh-text-secondary)', fontSize: '0.925rem' }}>
-              Real-time telemetry, active node directory, and repeater monitoring across Armenia.
+              Real-time telemetry, active node directory, repeater monitoring, and live messaging across Armenia.
             </p>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <button
               type="button"
-              onClick={refresh}
-              disabled={loading}
+              onClick={handleRefreshAll}
+              disabled={loading || messagesLoading}
               className={styles.settingsBtn}
             >
-              <RefreshCw size={14} className={loading ? styles.spinning : ''} />
+              <RefreshCw size={14} className={(loading || messagesLoading) ? styles.spinning : ''} />
               <span>Refresh</span>
             </button>
           </div>
@@ -107,24 +134,6 @@ export default function LiveMeshDashboard(): React.JSX.Element {
             </div>
           </div>
 
-          {/* Routers & Repeaters */}
-          <div style={{
-            background: 'var(--msh-telemetry-bg)',
-            border: '1px solid var(--msh-telemetry-border)',
-            borderRadius: 8,
-            padding: '0.85rem 1rem',
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: 'var(--msh-text-muted)', fontSize: '0.75rem', marginBottom: '0.25rem' }}>
-              <span>ROUTERS</span>
-              <Mountain size={15} color="#9333ea" />
-            </div>
-            <div style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--msh-text-primary)' }}>
-              {stats.activeRouters}
-            </div>
-            <div style={{ fontSize: '0.72rem', color: 'var(--msh-text-secondary)', marginTop: '0.15rem' }}>
-              Aragats, Sevan, Dilijan, Yerevan
-            </div>
-          </div>
 
           {/* Channel Utilization */}
           <div style={{
@@ -166,6 +175,92 @@ export default function LiveMeshDashboard(): React.JSX.Element {
         </div>
       </div>
 
+      {/* Interactive Armenia Coverage Map + Live Messages Feed Split */}
+      <div style={{
+        display: isMapCollapsed || isChatCollapsed ? 'flex' : 'grid',
+        flexDirection: 'column',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))',
+        gap: '1.25rem',
+        marginBottom: '2rem',
+        alignItems: 'stretch',
+      }}>
+        {/* Left Column: Interactive Armenia Coverage Map */}
+        <div
+          id="armenia-mesh-map"
+          style={{
+            background: 'var(--msh-card-bg)',
+            border: '1px solid var(--msh-card-border)',
+            borderRadius: 12,
+            padding: isMapCollapsed ? '0.85rem 1rem' : '1.1rem',
+            boxShadow: 'var(--msh-card-shadow)',
+            display: 'flex',
+            flexDirection: 'column',
+            minHeight: isMapCollapsed ? 'auto' : '480px',
+            transition: 'all 0.2s ease',
+          }}
+        >
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginBottom: isMapCollapsed ? 0 : '0.85rem',
+            gap: '0.5rem',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <MapPin size={18} color="var(--ifm-color-primary)" />
+              <h2 style={{ margin: 0, fontSize: '1.15rem', color: 'var(--msh-text-primary)', fontWeight: 700 }}>
+                Armenia Mesh Coverage Map
+              </h2>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setIsMapCollapsed(prev => !prev)}
+              style={{
+                background: 'transparent',
+                border: 'none',
+                color: 'var(--msh-text-secondary)',
+                cursor: 'pointer',
+                padding: '0.3rem',
+                borderRadius: 6,
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'color 0.15s ease, background 0.15s ease',
+              }}
+              title={isMapCollapsed ? "Expand map" : "Collapse map"}
+              aria-label={isMapCollapsed ? "Expand map" : "Collapse map"}
+            >
+              {isMapCollapsed ? <ChevronDown size={20} /> : <ChevronUp size={20} />}
+            </button>
+          </div>
+
+          {!isMapCollapsed && (
+            <div style={{ flex: 1, minHeight: '420px', position: 'relative' }}>
+              <MeshMap
+                nodes={nodes}
+                selectedNodeId={selectedNodeId}
+                onSelectNode={(node) => setSelectedNodeId(node.id)}
+                activeLink={activeLink}
+              />
+            </div>
+          )}
+        </div>
+
+        {/* Right Column: Messages Feed */}
+        <div style={{ minHeight: isChatCollapsed ? 'auto' : '480px' }}>
+          <MessagesFeed
+            messages={messages}
+            loading={messagesLoading}
+            onLocateNode={(nodeId) => setSelectedNodeId(nodeId)}
+            onHoverHeardBy={setActiveLink}
+            nodes={nodes}
+            isCollapsed={isChatCollapsed}
+            onToggleCollapse={() => setIsChatCollapsed(prev => !prev)}
+          />
+        </div>
+      </div>
+
       {/* Node Directory Section */}
       <div style={{ marginBottom: '0.85rem', display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
         <h2 style={{ margin: 0, fontSize: '1.25rem', color: 'var(--msh-text-primary)' }}>
@@ -178,7 +273,9 @@ export default function LiveMeshDashboard(): React.JSX.Element {
 
       <NodeDirectory 
         nodes={nodes} 
+        onSelectNode={(nodeId) => setSelectedNodeId(nodeId)}
       />
     </div>
   );
 }
+
