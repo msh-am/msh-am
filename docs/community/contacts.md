@@ -24,6 +24,7 @@ Join the Armenian Meshtastic community, connect with active node operators, and 
 - **Meshtastic Web Flasher**: [flasher.meshtastic.org](https://flasher.meshtastic.org) (Flash firmware directly from Chrome/Edge)
 - **Meshtastic Web Client**: [client.meshtastic.org](https://client.meshtastic.org) (Connect to your node over Web Bluetooth / Serial)
 - **msh.am Live Dashboard**: [/dashboard](/dashboard) (Real-time network telemetry and active node directory)
+- **PotatoMesh Ingester Guide**: [/docs/community/potatomesh-ingester](/docs/community/potatomesh-ingester) (Feed raw RF packet data to api.msh.am)
 - **Line-of-Sight RF Tool**: [heywhatsthat.com](https://www.heywhatsthat.com/) or [scadacore.com/tools/rf-path/cell-tower-coverage/](https://www.scadacore.com/tools/rf-path/cell-tower-coverage/) (Calculate RF line-of-sight across Armenian topography)
 
 ---

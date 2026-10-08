@@ -168,6 +168,10 @@ const config: Config = {
               label: 'Hardware Guide',
               to: '/docs/hardware/recommended-devices',
             },
+            {
+              label: 'PotatoMesh Ingester Setup',
+              to: '/docs/community/potatomesh-ingester',
+            },
           ],
         },
         {

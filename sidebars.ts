@@ -41,6 +41,7 @@ const sidebars: SidebarsConfig = {
       label: '🤝 Community & Etiquette',
       collapsed: false,
       items: [
+        'community/potatomesh-ingester',
         'community/etiquette',
         'community/contacts',
       ],

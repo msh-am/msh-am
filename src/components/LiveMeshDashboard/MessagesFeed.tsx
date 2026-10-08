@@ -358,12 +358,6 @@ export default function MessagesFeed({
                                 <div style={{ fontSize: '0.7rem', color: 'var(--msh-text-secondary)', marginTop: '0.15rem' }}>
                                   {hb.long_name || `Node ${hb.node_id}`}
                                 </div>
-                                {(hb.snr != null || hb.rssi != null) && (
-                                  <div style={{ fontSize: '0.68rem', color: 'var(--msh-text-muted)', marginTop: '0.2rem', display: 'flex', gap: '0.5rem' }}>
-                                    {hb.snr != null && <span>SNR: <b style={{ color: 'var(--msh-text-primary)' }}>{hb.snr} dB</b></span>}
-                                    {hb.rssi != null && <span>RSSI: <b style={{ color: 'var(--msh-text-primary)' }}>{hb.rssi} dBm</b></span>}
-                                  </div>
-                                )}
                               </div>
                             ))}
                           </div>

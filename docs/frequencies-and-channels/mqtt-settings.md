@@ -86,5 +86,6 @@ If you want to communicate strictly over local LoRa radio and never have your no
 
 ## ⚡ Next Steps
 - Verify that your node appears on the **[Live Mesh Dashboard](/dashboard)**.
+- Operating a mountain repeater or stationary gateway? Set up a **[PotatoMesh Ingester](/docs/community/potatomesh-ingester)** daemon.
 - Review [Channel Configuration & Encryption](/docs/frequencies-and-channels/channel-settings) to tune your channels.
 - Check [Mesh Etiquette](/docs/community/etiquette) for guidelines on node roles and broadcast intervals.

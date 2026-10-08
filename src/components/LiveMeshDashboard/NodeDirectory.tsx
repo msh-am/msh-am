@@ -371,22 +371,12 @@ export default function NodeDirectory({ nodes, onSelectNode }: NodeDirectoryProp
                                 )}
 
                                 <div style={{
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  justifyContent: 'space-between',
                                   fontSize: '0.68rem',
                                   color: 'var(--msh-text-muted)',
                                   paddingTop: '0.25rem',
                                   borderTop: '1px dashed var(--msh-card-border)',
                                 }}>
                                   <span>via {r.source === 'potatomesh' ? 'PotatoMesh Ingest' : 'MQTT Gateway'}</span>
-                                  {(r.snr !== undefined || r.rssi !== undefined) && (
-                                    <span style={{ color: 'var(--ifm-color-primary)', fontWeight: 600 }}>
-                                      {r.snr !== undefined ? `SNR: ${r.snr > 0 ? '+' : ''}${r.snr}dB` : ''}
-                                      {r.snr !== undefined && r.rssi !== undefined ? ' · ' : ''}
-                                      {r.rssi !== undefined ? `${r.rssi}dBm` : ''}
-                                    </span>
-                                  )}
                                 </div>
                               </div>
                             ))}
